@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webserv</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+        h1 { color: #333; }
+        .section { margin: 20px 0; padding: 15px; background: #f5f5f5; border-radius: 5px; }
+        a { color: #0066cc; }
+        form { margin: 10px 0; }
+        input[type="file"] { margin: 5px 0; }
+        code { background: #e8e8e8; padding: 2px 6px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Webserv</h1>
+    <p>Your C++ HTTP server is running successfully on port 8080.</p>
+
+    <div class="section">
+        <h2>Test Features</h2>
+        <ul>
+            <li><a href="/listing/">Directory Listing (autoindex)</a></li>
+            <li><a href="/cgi-bin/test.py">CGI Test - GET (Python)</a></li>
+            <li><a href="/cgi-bin/test.py?name=webserv&lang=cpp">CGI Test - GET with Query String</a></li>
+            <li><a href="/redirect">Redirect Test (301)</a></li>
+            <li><a href="/nonexistent">404 Error Page Test</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>File Upload Test (POST)</h2>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <br><br>
+            <input type="submit" value="Upload File">
+        </form>
+    </div>
+
+    <div class="section">
+        <h2>CGI POST Test</h2>
+        <form action="/cgi-bin/post_test.py" method="POST">
+            <label>Message: <input type="text" name="message" value="Hello from form"></label>
+            <br><br>
+            <input type="submit" value="Submit to CGI">
+        </form>
+    </div>
+
+    <div class="section">
+        <h2>Manual Tests (use curl/telnet)</h2>
+        <ul>
+            <li>DELETE: <code>curl -X DELETE http://localhost:8080/upload/filename</code></li>
+            <li>Body limit: <code>curl -X POST -H "Content-Type: text/plain" --data "$(head -c 11000000 /dev/zero)" http://localhost:8080/upload</code></li>
+            <li>Virtual host: <code>curl --resolve example.com:8080:127.0.0.1 http://example.com:8080/</code></li>
+            <li>Port 8081: <code>curl http://localhost:8081/</code></li>
+        </ul>
+    </div>
+</body>
+</html>
